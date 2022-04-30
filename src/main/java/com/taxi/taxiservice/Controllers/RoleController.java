@@ -26,7 +26,6 @@ public class RoleController {
         } catch (Exception err) {
             System.out.println(err);
         }
-
     }
 
     public void getRoleById(HttpServletRequest req, HttpServletResponse res) {
@@ -69,7 +68,7 @@ public class RoleController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             Role newRole = gson.fromJson(requestData, Role.class);
-            if(roleDAO.findByRolename((newRole.getRolename())) == null) {
+            if(roleDAO.findByRolename((newRole.getRolename())) == null && newRole.getRolename() != null) {
                 roleDAO.save(newRole.getRolename());
                 MessageController.sendResponseMessage(res,"Role successfully created");
             } else {

@@ -1,8 +1,7 @@
 package com.taxi.taxiservice;
 
+import com.taxi.taxiservice.Controllers.CarTypeController;
 import com.taxi.taxiservice.Controllers.RoleController;
-import com.taxi.taxiservice.DAO.RoleDaoImpl;
-import com.taxi.taxiservice.DAO.interfaces.IRoleDAO;
 
 import java.io.*;
 import java.util.Objects;
@@ -10,14 +9,15 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(urlPatterns = {"/roles", "/roles/*"})
+@WebServlet(urlPatterns = {"/roles", "/roles/*", "/car-types", "/car-types/*"})
 public class Main extends HttpServlet {
     private String message;
     private RoleController roleController;
+    private CarTypeController carTypeController;
 
     public void init() {
-        message = "Hello World!";
         roleController = new RoleController();
+        carTypeController = new CarTypeController();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -42,6 +42,18 @@ public class Main extends HttpServlet {
                         roleController.getRoles(request, response);
                     }
                     break;
+                case "/car-types":
+                    if(pathInfo != null) {
+                        String [] path = pathInfo.split("/");
+                        if(Objects.equals(path[1], "typename")) {
+                            carTypeController.getCarTypeByTypename(request, response);
+                        } else {
+                            carTypeController.getCarTypeById(request, response);
+                        }
+                    } else {
+                        carTypeController.getCarTypes(request, response);
+                    }
+                    break;
             }
         } catch (Exception err) {
             System.out.println(err);
@@ -57,6 +69,9 @@ public class Main extends HttpServlet {
             switch (action) {
                 case "/roles":
                     roleController.createRole(request, response);
+                    break;
+                case "/car-types":
+                    carTypeController.createCarType(request, response);
                     break;
             }
         } catch (Exception err) {
@@ -77,6 +92,11 @@ public class Main extends HttpServlet {
                 case "/roles":
                     if(pathInfo != null) {
                         roleController.deleteRoleById(request, response);
+                    }
+                    break;
+                case "/car-types":
+                    if(pathInfo != null) {
+                        carTypeController.deleteCarTypeById(request, response);
                     }
                     break;
             }
@@ -100,6 +120,11 @@ public class Main extends HttpServlet {
                         roleController.updateRoleById(request, response);
                     }
                     break;
+                case "/car-types":
+                    if(pathInfo != null) {
+                        carTypeController.updateCarTypeById(request, response);
+                    }
+                    break;
             }
         } catch (Exception err) {
             System.out.println(err);
@@ -108,5 +133,6 @@ public class Main extends HttpServlet {
 
     public void destroy() {
         roleController.destroy();
+        carTypeController.destroy();
     }
 }
