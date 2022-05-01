@@ -12,12 +12,47 @@
             width: 80%;
             margin: 0 auto;
         }
+
+        .container-margin {
+            margin: 100px 0px;
+        }
     </style>
 </head>
 <body class="wrapper my-3">
 <h1>Taxi Service API</h1>
 
-<div class="border-top border-bottom">
+
+<div class="border-top border-bottom container-margin">
+    <h3>Users</h3>
+    <div class="alert alert-primary d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-primary mx-4">GET</button>
+        <p class="m-0 p-0">/api/users</p>
+    </div>
+    <div class="alert alert-primary  d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-primary mx-4">GET</button>
+        <p class="m-0 p-0">/api/users/:id</p>
+    </div>
+
+    <div class="alert alert-success d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-success mx-4">POST</button>
+        <p class="m-0 p-0">/api/users</p>
+        <small class="px-4">body: { name: String, surname: String, email: String, password_hash: String, roleId: Number }</small>
+    </div>
+
+    <div class="alert alert-warning d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-warning mx-4">PUT</button>
+        <p class="m-0 p-0">/api/users/:id</p>
+        <small class="px-4">body: { field: String, value: String }</small>
+    </div>
+
+    <div class="alert alert-danger d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-danger mx-4">DELETE</button>
+        <p class="m-0 p-0">/api/users/:id</p>
+    </div>
+</div>
+
+
+<div class="border-top border-bottom container-margin">
     <h3>Roles</h3>
     <div class="alert alert-primary d-flex align-items-center py-2" role="alert">
         <button type="button" class="btn btn-primary mx-4">GET</button>
@@ -52,7 +87,7 @@
 
 
 
-<div class="border-top border-bottom">
+<div class="border-top border-bottom container-margin">
     <h3>Car types</h3>
     <div class="alert alert-primary d-flex align-items-center py-2" role="alert">
         <button type="button" class="btn btn-primary mx-4">GET</button>
@@ -82,6 +117,31 @@
     <div class="alert alert-danger d-flex align-items-center py-2" role="alert">
         <button type="button" class="btn btn-danger mx-4">DELETE</button>
         <p class="m-0 p-0">/api/car-types/:id</p>
+    </div>
+</div>
+
+<div class="border-top border-bottom container-margin">
+    <h3>Driver Status</h3>
+    <div class="alert alert-primary d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-primary mx-4">GET</button>
+        <p class="m-0 p-0">/api/driver-statuses</p>
+    </div>
+
+    <div class="alert alert-primary  d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-primary mx-4">GET</button>
+        <p class="m-0 p-0">/api/driver-statuses/:driver_id</p>
+    </div>
+
+    <div class="alert alert-success d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-success mx-4">POST</button>
+        <p class="m-0 p-0">/api/driver-statuses/</p>
+        <small class="px-4">body: { driver_id: Number, status: [offline, busy, available] }</small>
+    </div>
+
+    <div class="alert alert-warning d-flex align-items-center py-2" role="alert">
+        <button type="button" class="btn btn-warning mx-4">PUT</button>
+        <p class="m-0 p-0">/api/driver-statuses/:driver_id</p>
+        <small class="px-4">body: { status: String }</small>
     </div>
 </div>
 </body>

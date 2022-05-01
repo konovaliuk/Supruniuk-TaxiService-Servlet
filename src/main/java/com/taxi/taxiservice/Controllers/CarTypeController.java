@@ -32,7 +32,7 @@ public class CarTypeController {
         String id = req.getPathInfo().substring(1);
 
         try {
-            Long typeId = Long.parseLong(id);
+            long typeId = Long.parseLong(id);
             CarType carType = carTypeDAO.findByID(typeId);
             if(carType == null) {
                 MessageController.badRequest(res,"Car type not found");
@@ -88,7 +88,7 @@ public class CarTypeController {
         String id = req.getPathInfo().substring(1);
 
         try {
-            Long carTypeId = Long.parseLong(id);
+            long carTypeId = Long.parseLong(id);
             if(carTypeDAO.findByID(carTypeId) != null) {
                 carTypeDAO.delete(carTypeId);
                 MessageController.sendResponseMessage(res,"Car type deleted successfully");
@@ -108,7 +108,7 @@ public class CarTypeController {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             CarType updatedCarType = gson.fromJson(requestData, CarType.class);
             if(updatedCarType.getDescription() != null && updatedCarType.getTypename() != null) {
-                Long carTypeId = Long.parseLong(id);
+                long carTypeId = Long.parseLong(id);
                 if(carTypeDAO.findByID(carTypeId) != null) {
                     carTypeDAO.update(carTypeId, updatedCarType.getTypename(), updatedCarType.getDescription());
                     MessageController.sendResponseMessage(res,"Car type updated successfully");

@@ -32,7 +32,7 @@ public class RoleController {
         String id = req.getPathInfo().substring(1);
 
         try {
-            Long roleId = Long.parseLong(id);
+            long roleId = Long.parseLong(id);
             Role role = roleDAO.findById(roleId);
             if(role == null) {
                 MessageController.badRequest(res,"Role not found");
@@ -72,7 +72,7 @@ public class RoleController {
                 roleDAO.save(newRole.getRolename());
                 MessageController.sendResponseMessage(res,"Role successfully created");
             } else {
-                MessageController.badRequest(res, "Role already exist");
+                MessageController.badRequest(res, "Role already exists");
             }
         } catch (Exception err) {
             System.out.println("Server error");
@@ -83,7 +83,7 @@ public class RoleController {
         String id = req.getPathInfo().substring(1);
 
         try {
-            Long roleId = Long.parseLong(id);
+            long roleId = Long.parseLong(id);
             if(roleDAO.findById(roleId) != null) {
                 roleDAO.delete(roleId);
                 MessageController.sendResponseMessage(res,"Role deleted successfully");
@@ -103,7 +103,7 @@ public class RoleController {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             Role updatedRole = gson.fromJson(requestData, Role.class);
             if(updatedRole.getRolename() != null) {
-                Long roleId = Long.parseLong(id);
+                long roleId = Long.parseLong(id);
                 if(roleDAO.findById(roleId) != null) {
                     roleDAO.update(roleId, updatedRole.getRolename());
                     MessageController.sendResponseMessage(res,"Role updated successfully");
@@ -116,7 +116,8 @@ public class RoleController {
             res.getWriter().flush();
         } catch (Exception err) {
             System.out.println("Server error");
-        }}
+        }
+    }
 
     public void destroy() {
         roleDAO.closeConnection();

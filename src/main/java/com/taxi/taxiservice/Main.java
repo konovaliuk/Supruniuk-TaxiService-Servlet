@@ -1,7 +1,9 @@
 package com.taxi.taxiservice;
 
 import com.taxi.taxiservice.Controllers.CarTypeController;
+import com.taxi.taxiservice.Controllers.DriverStatusController;
 import com.taxi.taxiservice.Controllers.RoleController;
+import com.taxi.taxiservice.Controllers.UserController;
 
 import java.io.*;
 import java.util.Objects;
@@ -9,15 +11,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(urlPatterns = {"/roles", "/roles/*", "/car-types", "/car-types/*"})
+@WebServlet(urlPatterns = {"/roles", "/roles/*", "/car-types", "/car-types/*", "/driver-statuses", "/driver-statuses/*", "/users", "/users/*"})
 public class Main extends HttpServlet {
     private String message;
     private RoleController roleController;
     private CarTypeController carTypeController;
+    private DriverStatusController driverStatusController;
+
+    private UserController userController;
 
     public void init() {
         roleController = new RoleController();
         carTypeController = new CarTypeController();
+        driverStatusController = new DriverStatusController();
+        userController = new UserController();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -54,6 +61,21 @@ public class Main extends HttpServlet {
                         carTypeController.getCarTypes(request, response);
                     }
                     break;
+                case "/driver-statuses":
+                    //statuses: offline, busy, available
+                    if(pathInfo != null) {
+                        driverStatusController.getDriverStatusById(request, response);
+                    } else {
+                        driverStatusController.getDriverStatuses(request, response);
+                    }
+                    break;
+                case "/users":
+                    if(pathInfo != null) {
+                        userController.getUserById(request, response);
+                    } else {
+                        userController.getUsers(request, response);
+                    }
+                    break;
             }
         } catch (Exception err) {
             System.out.println(err);
@@ -72,6 +94,12 @@ public class Main extends HttpServlet {
                     break;
                 case "/car-types":
                     carTypeController.createCarType(request, response);
+                    break;
+                case "/driver-statuses":
+                    driverStatusController.setDriverStatus(request, response);
+                    break;
+                case "/users":
+                    userController.createUser(request, response);
                     break;
             }
         } catch (Exception err) {
@@ -99,6 +127,12 @@ public class Main extends HttpServlet {
                         carTypeController.deleteCarTypeById(request, response);
                     }
                     break;
+                case "/users":
+                    if(pathInfo != null) {
+                        userController.deleteUserById(request, response);
+                    }
+                    break;
+
             }
         } catch (Exception err) {
             System.out.println(err);
@@ -125,6 +159,14 @@ public class Main extends HttpServlet {
                         carTypeController.updateCarTypeById(request, response);
                     }
                     break;
+                case "/driver-statuses":
+                    if(pathInfo != null) {
+                        driverStatusController.updateDriverStatusById(request, response);
+                    }
+                case "/users":
+                    if(pathInfo != null) {
+                        userController.updateUserById(request, response);
+                    }
             }
         } catch (Exception err) {
             System.out.println(err);
@@ -134,5 +176,7 @@ public class Main extends HttpServlet {
     public void destroy() {
         roleController.destroy();
         carTypeController.destroy();
+        driverStatusController.destroy();
+        userController.destroy();
     }
 }
