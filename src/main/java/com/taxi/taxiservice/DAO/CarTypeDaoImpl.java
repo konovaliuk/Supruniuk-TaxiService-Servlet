@@ -18,7 +18,6 @@ public class CarTypeDaoImpl implements ICarTypeDAO {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection("Car Type Data Source");
-            System.out.println("Connected to the PostgreSQL server successfully.");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -79,9 +78,6 @@ public class CarTypeDaoImpl implements ICarTypeDAO {
 
             while (resultSet.next()) {
                 carType = getCarType(resultSet);
-
-                System.out.println("id" + "\t\t" + "typename" + "\t\t" + "description");
-                System.out.println(carType.getId() + "\t\t" + carType.getTypename() + "\t\t\t\t" + carType.getDescription());
             }
         } catch (Exception error) {
             error.printStackTrace();

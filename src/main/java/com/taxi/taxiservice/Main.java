@@ -1,9 +1,6 @@
 package com.taxi.taxiservice;
 
-import com.taxi.taxiservice.Controllers.CarTypeController;
-import com.taxi.taxiservice.Controllers.DriverStatusController;
-import com.taxi.taxiservice.Controllers.RoleController;
-import com.taxi.taxiservice.Controllers.UserController;
+import com.taxi.taxiservice.Controllers.*;
 
 import java.io.*;
 import java.util.Objects;
@@ -11,20 +8,28 @@ import javax.servlet.ServletException;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
 
-@WebServlet(urlPatterns = {"/roles", "/roles/*", "/car-types", "/car-types/*", "/driver-statuses", "/driver-statuses/*", "/users", "/users/*"})
+@WebServlet(urlPatterns = {"/roles", "/roles/*", "/car-types", "/car-types/*",
+        "/driver-statuses", "/driver-statuses/*", "/users", "/users/*",
+        "/role-connections", "/role-connections/*", "/cars", "/cars/*",
+        "/orders", "/orders/*"})
 public class Main extends HttpServlet {
-    private String message;
     private RoleController roleController;
     private CarTypeController carTypeController;
     private DriverStatusController driverStatusController;
 
     private UserController userController;
+    private UserRoleController userRoleController;
+    private CarController carController;
+    private OrderController orderController;
 
     public void init() {
         roleController = new RoleController();
         carTypeController = new CarTypeController();
         driverStatusController = new DriverStatusController();
         userController = new UserController();
+        userRoleController = new UserRoleController();
+        carController = new CarController();
+        orderController = new OrderController();
     }
 
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -76,6 +81,44 @@ public class Main extends HttpServlet {
                         userController.getUsers(request, response);
                     }
                     break;
+                case "/role-connections":
+                    if(pathInfo != null) {
+                        String [] path = pathInfo.split("/");
+                        if(Objects.equals(path[1], "user")) {
+                            userRoleController.getUserRoles(request, response);
+                        } else if (Objects.equals(path[1], "role")) {
+                            userRoleController.getUsersByRole(request, response);
+                        } else {
+                            userRoleController.getConnectionById(request, response);
+                        }
+                    } else {
+                        userRoleController.getRoleConnections(request, response);
+                    }
+                    break;
+                case "/cars":
+                    if(pathInfo != null) {
+                        String [] path = pathInfo.split("/");
+                        if(Objects.equals(path[1], "driver")) {
+                            carController.getCarsByDriverId(request, response);
+                        } else {
+                            carController.getCarById(request, response);
+                        }
+                    } else {
+                        carController.getCars(request, response);
+                    }
+                    break;
+                case "/orders":
+                    if(pathInfo != null) {
+                        orderController.getOrderById(request, response);
+                    } else {
+                        String role = request.getParameter("role");
+                        String id = request.getParameter("id");
+                        if(role!=null && id!=null) {
+                            orderController.getOrdersByRole(request, response);
+                        }
+                        orderController.getOrders(request, response);
+                    }
+                    break;
             }
         } catch (Exception err) {
             System.out.println(err);
@@ -100,6 +143,15 @@ public class Main extends HttpServlet {
                     break;
                 case "/users":
                     userController.createUser(request, response);
+                    break;
+                case "/role-connections":
+                    userRoleController.createConnection(request, response);
+                    break;
+                case "/cars":
+                    carController.createCar(request, response);
+                    break;
+                case "/orders":
+                    orderController.createOrder(request, response);
                     break;
             }
         } catch (Exception err) {
@@ -132,6 +184,16 @@ public class Main extends HttpServlet {
                         userController.deleteUserById(request, response);
                     }
                     break;
+                case "/role-connections":
+                    if(pathInfo != null) {
+                        userRoleController.deleteConnectionById(request, response);
+                    }
+                    break;
+                case "/cars":
+                    if(pathInfo != null) {
+                        carController.deleteCarById(request, response);
+                    }
+                    break;
 
             }
         } catch (Exception err) {
@@ -143,7 +205,7 @@ public class Main extends HttpServlet {
     protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getServletPath();
         String pathInfo = request.getPathInfo();
-        System.out.println("POST");
+        System.out.println("PUT");
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -167,6 +229,21 @@ public class Main extends HttpServlet {
                     if(pathInfo != null) {
                         userController.updateUserById(request, response);
                     }
+                case "/cars":
+                    if(pathInfo != null) {
+                        carController.updateCarById(request, response);
+                    }
+                case "/orders":
+                    if(pathInfo != null) {
+                        String [] path = pathInfo.split("/");
+                        if (Objects.equals(path[1], "dispatcher")) {
+                            orderController.updateByDispatcher(request, response);
+                        } else if (Objects.equals(path[1], "driver")) {
+                            orderController.updateByDriver(request, response);
+                        } else if (Objects.equals(path[1], "feedback")) {
+                            orderController.leaveFeedback(request, response);
+                        }
+                    }
             }
         } catch (Exception err) {
             System.out.println(err);
@@ -178,5 +255,8 @@ public class Main extends HttpServlet {
         carTypeController.destroy();
         driverStatusController.destroy();
         userController.destroy();
+        userRoleController.destroy();
+        carController.destroy();
+        orderController.destroy();
     }
 }

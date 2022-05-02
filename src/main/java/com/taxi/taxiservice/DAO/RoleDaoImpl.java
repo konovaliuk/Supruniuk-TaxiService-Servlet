@@ -19,7 +19,6 @@ public class RoleDaoImpl implements IRoleDAO {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
             connection = connectionPool.getConnection("Role Data Source");
-            System.out.println("Connected to the PostgreSQL server successfully.");
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

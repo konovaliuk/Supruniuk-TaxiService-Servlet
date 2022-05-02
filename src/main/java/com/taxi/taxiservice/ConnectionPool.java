@@ -19,7 +19,6 @@ public class ConnectionPool {
 
     public static ConnectionPool getInstance() {
         if (instance == null) {
-            System.out.println("here");
             instance = new ConnectionPool();
         }
         return instance;

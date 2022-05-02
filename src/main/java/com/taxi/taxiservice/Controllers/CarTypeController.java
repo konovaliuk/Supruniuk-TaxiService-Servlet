@@ -121,7 +121,8 @@ public class CarTypeController {
             res.getWriter().flush();
         } catch (Exception err) {
             System.out.println("Server error");
-        }}
+        }
+    }
 
     public void destroy() {
         carTypeDAO.closeConnection();

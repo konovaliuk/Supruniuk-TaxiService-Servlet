@@ -1,11 +1,9 @@
 package com.taxi.taxiservice.Controllers;
 
 import com.google.gson.Gson;
-import com.taxi.taxiservice.DAO.RoleDaoImpl;
 import com.taxi.taxiservice.DAO.UsersDaoImpl;
 import com.taxi.taxiservice.Models.NewUser;
-import com.taxi.taxiservice.Models.Role;
-import com.taxi.taxiservice.Models.UpdateUser;
+import com.taxi.taxiservice.Models.UpdateField;
 import com.taxi.taxiservice.Models.User;
 
 import javax.servlet.http.HttpServletRequest;
@@ -95,10 +93,10 @@ public class UserController {
 
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
-            UpdateUser updatedUser = gson.fromJson(requestData, UpdateUser.class);
+            UpdateField updatedUser = gson.fromJson(requestData, UpdateField.class);
             if(updatedUser.getField() != null && updatedUser.getValue() != null) {
                 long userId = Long.parseLong(id);
-                if(usersDao.findById(userId) != null && updatedUser.getField() != null && updatedUser.getValue() != null) {
+                if(usersDao.findById(userId) != null) {
                     usersDao.update(userId, updatedUser.getField(), updatedUser.getValue());
                     MessageController.sendResponseMessage(res,"User updated successfully");
                 } else {

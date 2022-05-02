@@ -1,18 +1,19 @@
 package com.taxi.taxiservice.Models;
 
-public class UpdateUser {
-    private long id;
+public class UpdateField {
     private String field;
     private String value;
 
-    public UpdateUser(long id, String field, String value) {
-        this.id = id;
+    public UpdateField(String field, String value) {
         this.field = field;
         this.value = value;
     }
 
-    public long getId() {
-        return id;
+    public boolean checkValid() {
+        if(this.getField() != null && this.getValue() != null) {
+            return true;
+        }
+        return false;
     }
 
     public String getField() {
