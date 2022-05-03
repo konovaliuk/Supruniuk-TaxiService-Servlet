@@ -24,7 +24,7 @@ public class RoleController {
             res.getWriter().flush();
 
         } catch (Exception err) {
-            System.out.println(err);
+            MessageController.internal(res);
         }
     }
 
@@ -42,13 +42,12 @@ public class RoleController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
     public void getByRolename(HttpServletRequest req, HttpServletResponse res) {
-        String [] path = req.getPathInfo().split("/");
-        String rolename = path[2];
+        String rolename = req.getParameter("role");
 
         try {
             Role role = roleDAO.findByRolename(rolename);
@@ -60,7 +59,7 @@ public class RoleController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -68,14 +67,18 @@ public class RoleController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             Role newRole = gson.fromJson(requestData, Role.class);
-            if(roleDAO.findByRolename((newRole.getRolename())) == null && newRole.getRolename() != null) {
-                roleDAO.save(newRole.getRolename());
-                MessageController.sendResponseMessage(res,"Role successfully created");
+            if(roleDAO.findByRolename((newRole.getRolename())) == null) {
+                if(newRole.checkValid()){
+                    roleDAO.save(newRole.getRolename());
+                    MessageController.sendResponseMessage(res,"Role successfully created");
+                } else {
+                    MessageController.badRequest(res, "Validation failed");
+                }
             } else {
                 MessageController.badRequest(res, "Role already exists");
             }
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -92,7 +95,7 @@ public class RoleController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -102,7 +105,7 @@ public class RoleController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             Role updatedRole = gson.fromJson(requestData, Role.class);
-            if(updatedRole.getRolename() != null) {
+            if(updatedRole.checkValid()) {
                 long roleId = Long.parseLong(id);
                 if(roleDAO.findById(roleId) != null) {
                     roleDAO.update(roleId, updatedRole.getRolename());
@@ -111,11 +114,11 @@ public class RoleController {
                     MessageController.badRequest(res, "Role doesn`t exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 

@@ -27,7 +27,7 @@ public class CarController {
             res.getWriter().flush();
 
         } catch (Exception err) {
-            System.out.println(err);
+            MessageController.internal(res);
         }
     }
 
@@ -45,7 +45,7 @@ public class CarController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -63,7 +63,7 @@ public class CarController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -71,15 +71,14 @@ public class CarController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             Car newCar = gson.fromJson(requestData, Car.class);
-            if(newCar.getModel() != null && newCar.getColor() != null &&
-                    newCar.getLicenseNumber() != null && newCar.getTypeID() != 0) {
+            if(newCar.checkValid()) {
                 carDao.save(newCar);
                 MessageController.sendResponseMessage(res,"Car successfully created");
             } else {
-                MessageController.badRequest(res, "Incorrect field");
+                MessageController.badRequest(res, "Validation failed");
             }
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -96,7 +95,7 @@ public class CarController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -115,11 +114,11 @@ public class CarController {
                     MessageController.badRequest(res, "Car doesn`t exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 

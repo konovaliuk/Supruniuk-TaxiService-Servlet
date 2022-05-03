@@ -31,6 +31,14 @@ public class Car {
         this.type_id = type_id;
     }
 
+    public boolean checkValid() {
+        if(this.getModel() != null && this.getColor() != null && this.getDriverID() != 0 &&
+                this.getLicenseNumber() != null && this.getTypeID() != 0) {
+            return true;
+        }
+        return false;
+    }
+
     public long getId() {
         return id;
     }

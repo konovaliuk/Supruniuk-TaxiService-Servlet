@@ -25,7 +25,7 @@ public class OrderController {
             res.getWriter().flush();
 
         } catch (Exception err) {
-            System.out.println(err);
+            MessageController.internal(res);
         }
     }
 
@@ -43,7 +43,7 @@ public class OrderController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -73,7 +73,7 @@ public class OrderController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
     public void createOrder(HttpServletRequest req, HttpServletResponse res) {
@@ -84,10 +84,10 @@ public class OrderController {
                 orderDao.save(orderClient);
                 MessageController.sendResponseMessage(res,"Order successfully created");
             } else {
-                MessageController.badRequest(res, "Order field invalid");
+                MessageController.badRequest(res, "Order Validation failed");
             }
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -106,11 +106,11 @@ public class OrderController {
                     MessageController.badRequest(res, "Order doesn`t exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -129,11 +129,11 @@ public class OrderController {
                     MessageController.badRequest(res, "Order doesn`t exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -152,11 +152,11 @@ public class OrderController {
                     MessageController.badRequest(res, "Order doesn`t exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
     public void destroy() {

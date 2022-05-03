@@ -21,6 +21,17 @@ public class MessageController {
         }
     }
 
+    static void internal(HttpServletResponse res) {
+        try{
+            ServerMessage serverMessage = new ServerMessage("Server error...");
+            String jsonMessage = new Gson().toJson(serverMessage);
+            res.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            res.getWriter().write(jsonMessage);
+        } catch (Exception err) {
+            System.out.println("Server error");
+        }
+    }
+
     static void sendResponseMessage(HttpServletResponse res, String message) {
         try{
             ServerMessage serverMessage = new ServerMessage(message);

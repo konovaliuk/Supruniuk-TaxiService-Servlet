@@ -4,7 +4,7 @@ import com.taxi.taxiservice.ConnectionPool;
 import com.taxi.taxiservice.DAO.dbColumns.UserDB;
 import com.taxi.taxiservice.DAO.interfaces.IUsersDAO;
 import com.taxi.taxiservice.Models.NewUser;
-import com.taxi.taxiservice.Models.User;
+import com.taxi.taxiservice.Models.User.User;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -74,8 +74,7 @@ public class UsersDaoImpl implements IUsersDAO {
     }
 
     public User findByEmail(String email) {
-        String query = "select * from users where email=" + email;
-
+        String query = "select * from users where email='" + email + "'";
         User user = null;
 
         try {

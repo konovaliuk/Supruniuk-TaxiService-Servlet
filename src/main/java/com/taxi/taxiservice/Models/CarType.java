@@ -11,6 +11,14 @@ public class CarType {
         this.description = description;
     }
 
+    public boolean checkValid() {
+        if(this.getTypename() != null && this.getDescription() != null) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public CarType(String typename, String description) {
         this.typename = typename;
         this.description = description;

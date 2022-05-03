@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.taxi.taxiservice.DAO.UsersDaoImpl;
 import com.taxi.taxiservice.Models.NewUser;
 import com.taxi.taxiservice.Models.UpdateField;
-import com.taxi.taxiservice.Models.User;
+import com.taxi.taxiservice.Models.User.User;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,7 +28,7 @@ public class UserController {
             res.getWriter().flush();
 
         } catch (Exception err) {
-            System.out.println(err);
+            MessageController.internal(res);
         }
     }
 
@@ -46,7 +46,7 @@ public class UserController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -54,20 +54,20 @@ public class UserController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             NewUser newUser = gson.fromJson(requestData, NewUser.class);
-            if(usersDao.findByEmail(newUser.getEmail()) == null) {
-                if(newUser.getEmail() != null && newUser.getName() != null && newUser.getRoleId() != 0
-                        && newUser.getPasswordHash() != null && newUser.getSurname() != null) {
+            User checkExist = usersDao.findByEmail(newUser.getEmail());
+            if(checkExist == null) {
+                if(newUser.checkValid()) {
                     User user = usersDao.save(newUser, newUser.getRoleId());
                     String json = new Gson().toJson(user);
                     res.getWriter().write(json);
                 } else {
-                    MessageController.badRequest(res, "Incorrect field");
+                    MessageController.badRequest(res, "Validation failed");
                 }
             } else {
-                MessageController.badRequest(res, "User already exists");
+                MessageController.badRequest(res, "User with this email already exists");
             }
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -84,7 +84,7 @@ public class UserController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -94,7 +94,7 @@ public class UserController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             UpdateField updatedUser = gson.fromJson(requestData, UpdateField.class);
-            if(updatedUser.getField() != null && updatedUser.getValue() != null) {
+            if(updatedUser.checkValid()) {
                 long userId = Long.parseLong(id);
                 if(usersDao.findById(userId) != null) {
                     usersDao.update(userId, updatedUser.getField(), updatedUser.getValue());
@@ -103,11 +103,11 @@ public class UserController {
                     MessageController.badRequest(res, "User doesn`t exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 

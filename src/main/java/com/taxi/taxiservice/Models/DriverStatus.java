@@ -9,6 +9,13 @@ public class DriverStatus {
         this.status = status;
     }
 
+    public boolean checkValid() {
+        if(this.getDriverStatus() != null && this.getId() !=0 ) {
+            return true;
+        }
+        return false;
+    }
+
     public long getId() {
         return driver_id;
     }

@@ -1,6 +1,6 @@
 package com.taxi.taxiservice.DAO.interfaces;
 
-import com.taxi.taxiservice.Models.UserRole;
+import com.taxi.taxiservice.Models.User.UserRole;
 
 import java.util.ArrayList;
 

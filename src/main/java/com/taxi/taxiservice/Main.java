@@ -16,7 +16,6 @@ public class Main extends HttpServlet {
     private RoleController roleController;
     private CarTypeController carTypeController;
     private DriverStatusController driverStatusController;
-
     private UserController userController;
     private UserRoleController userRoleController;
     private CarController carController;
@@ -35,7 +34,6 @@ public class Main extends HttpServlet {
     public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String action = request.getServletPath();
         String pathInfo = request.getPathInfo();
-        String uri = request.getRequestURI();
         System.out.println("GET");
 
         response.setContentType("application/json");
@@ -44,26 +42,26 @@ public class Main extends HttpServlet {
             switch (action) {
                 case "/roles":
                     if(pathInfo != null) {
-                        String [] path = pathInfo.split("/");
-                        if(Objects.equals(path[1], "rolename")) {
+                        roleController.getRoleById(request, response);
+                    } else {
+                        String role = request.getParameter("role");
+                        if(role != null) {
                             roleController.getByRolename(request, response);
                         } else {
-                            roleController.getRoleById(request, response);
+                            roleController.getRoles(request, response);
                         }
-                    } else {
-                        roleController.getRoles(request, response);
                     }
                     break;
                 case "/car-types":
                     if(pathInfo != null) {
-                        String [] path = pathInfo.split("/");
-                        if(Objects.equals(path[1], "typename")) {
+                        carTypeController.getCarTypeById(request, response);
+                    } else {
+                        String type = request.getParameter("type");
+                        if(type != null) {
                             carTypeController.getCarTypeByTypename(request, response);
                         } else {
-                            carTypeController.getCarTypeById(request, response);
+                            carTypeController.getCarTypes(request, response);
                         }
-                    } else {
-                        carTypeController.getCarTypes(request, response);
                     }
                     break;
                 case "/driver-statuses":
@@ -128,8 +126,9 @@ public class Main extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String action = request.getServletPath();
-        System.out.println("POST");
 
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
         try {
             switch (action) {
                 case "/roles":

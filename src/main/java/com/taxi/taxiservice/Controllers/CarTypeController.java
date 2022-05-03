@@ -24,7 +24,7 @@ public class CarTypeController {
             res.getWriter().flush();
 
         } catch (Exception err) {
-            System.out.println(err);
+            MessageController.internal(res);
         }
     }
 
@@ -42,13 +42,12 @@ public class CarTypeController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
     public void getCarTypeByTypename(HttpServletRequest req, HttpServletResponse res) {
-        String [] path = req.getPathInfo().split("/");
-        String typename = path[2];
+        String typename = req.getParameter("type");
 
         try {
             CarType carType = carTypeDAO.findByTypename(typename);
@@ -60,27 +59,26 @@ public class CarTypeController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
-
 
     public void createCarType(HttpServletRequest req, HttpServletResponse res) {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             CarType newCarType = gson.fromJson(requestData, CarType.class);
             if(carTypeDAO.findByTypename((newCarType.getTypename())) == null) {
-                if(newCarType.getDescription() != null && newCarType.getTypename() != null) {
+                if(newCarType.checkValid()) {
                     carTypeDAO.save(newCarType.getTypename(), newCarType.getDescription());
                     MessageController.sendResponseMessage(res,"Car type successfully created");
                 } else {
-                    MessageController.badRequest(res, "Invalid field");
+                    MessageController.badRequest(res, "Validation failed");
                 }
             } else {
                 MessageController.badRequest(res, "Car type already exists");
             }
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -97,7 +95,7 @@ public class CarTypeController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -107,7 +105,7 @@ public class CarTypeController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             CarType updatedCarType = gson.fromJson(requestData, CarType.class);
-            if(updatedCarType.getDescription() != null && updatedCarType.getTypename() != null) {
+            if(updatedCarType.checkValid()) {
                 long carTypeId = Long.parseLong(id);
                 if(carTypeDAO.findByID(carTypeId) != null) {
                     carTypeDAO.update(carTypeId, updatedCarType.getTypename(), updatedCarType.getDescription());
@@ -116,11 +114,11 @@ public class CarTypeController {
                     MessageController.badRequest(res, "Car type doesn`t exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 

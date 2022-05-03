@@ -1,7 +1,7 @@
 package com.taxi.taxiservice.DAO.interfaces;
 
 import com.taxi.taxiservice.Models.NewUser;
-import com.taxi.taxiservice.Models.User;
+import com.taxi.taxiservice.Models.User.User;
 
 import java.util.ArrayList;
 

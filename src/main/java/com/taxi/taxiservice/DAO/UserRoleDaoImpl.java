@@ -3,8 +3,7 @@ package com.taxi.taxiservice.DAO;
 import com.taxi.taxiservice.ConnectionPool;
 import com.taxi.taxiservice.DAO.dbColumns.UserRoleDB;
 import com.taxi.taxiservice.DAO.interfaces.IUserRoleDAO;
-import com.taxi.taxiservice.Models.User;
-import com.taxi.taxiservice.Models.UserRole;
+import com.taxi.taxiservice.Models.User.UserRole;
 
 import java.sql.Connection;
 import java.sql.ResultSet;

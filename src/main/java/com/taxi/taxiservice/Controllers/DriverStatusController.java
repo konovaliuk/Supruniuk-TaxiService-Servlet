@@ -27,7 +27,7 @@ public class DriverStatusController {
             res.getWriter().flush();
 
         } catch (Exception err) {
-            System.out.println(err);
+            MessageController.internal(res);
         }
     }
 
@@ -45,7 +45,7 @@ public class DriverStatusController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -53,14 +53,18 @@ public class DriverStatusController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             DriverStatus newDriverStatus = gson.fromJson(requestData, DriverStatus.class);
-            if(driverStatusDAO.findByDriverID((newDriverStatus.getId())) == null && newDriverStatus.getDriverStatus() != null) {
-                driverStatusDAO.save(newDriverStatus.getId(), newDriverStatus.getDriverStatus());
-                MessageController.sendResponseMessage(res,"Driver status successfully setted");
+            if(newDriverStatus.checkValid()) {
+                if(driverStatusDAO.findByDriverID((newDriverStatus.getId())) == null) {
+                    driverStatusDAO.save(newDriverStatus.getId(), newDriverStatus.getDriverStatus());
+                    MessageController.sendResponseMessage(res,"Driver status successfully setted");
+                } else {
+                    MessageController.badRequest(res, "Driver already has status");
+                }
             } else {
-                MessageController.badRequest(res, "Driver already has status");
+                MessageController.badRequest(res, "Validation failed");
             }
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
     public void updateDriverStatusById(HttpServletRequest req, HttpServletResponse res) {
@@ -81,11 +85,11 @@ public class DriverStatusController {
                     MessageController.badRequest(res, "Driver status not exist");
                 }
             } else {
-                MessageController.badRequest(res, "Invalid field");
+                MessageController.badRequest(res, "Validation failed");
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.badRequest(res, "Validation failed");
         }
     }
 

@@ -5,17 +5,23 @@ public class NewUser {
     private String surname;
     private String email;
     private String password_hash;
-    private String created_on;
     private long roleId;
 
     public NewUser(String name, String surname,
-                String email, String password_hash, String created_on, long roleId) {
+                String email, String password_hash, long roleId) {
         this.roleId = roleId;
         this.name = name;
         this.surname = surname;
         this.email = email;
         this.password_hash = password_hash;
-        this.created_on = created_on;
+    }
+
+    public boolean checkValid() {
+        if(this.getEmail() != null && this.getName() != null && this.getRoleId() != 0
+            && this.getPasswordHash() != null && this.getSurname() != null) {
+            return true;
+        }
+        return false;
     }
 
     public long getRoleId() {
@@ -38,10 +44,6 @@ public class NewUser {
         this.surname = surname;
     }
 
-    public String getFullName() {
-        return name + " " + surname;
-    }
-
     public String getEmail() {
         return email;
     }
@@ -58,7 +60,4 @@ public class NewUser {
         this.password_hash = password_hash;
     }
 
-    public String getCreatedOn() {
-        return created_on;
-    }
 }

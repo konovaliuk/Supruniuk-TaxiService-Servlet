@@ -1,4 +1,4 @@
-package com.taxi.taxiservice.Models;
+package com.taxi.taxiservice.Models.User;
 
 public class User {
     private long id;
@@ -17,6 +17,8 @@ public class User {
         this.password_hash = password_hash;
         this.created_on = created_on;
     }
+
+
 
     public long getId() {
         return id;

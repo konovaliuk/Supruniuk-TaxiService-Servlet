@@ -1,4 +1,4 @@
-package com.taxi.taxiservice.Models;
+package com.taxi.taxiservice.Models.User;
 
 public class UserRole {
     private final long id;

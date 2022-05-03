@@ -3,7 +3,7 @@ package com.taxi.taxiservice.Controllers;
 import com.google.gson.Gson;
 import com.taxi.taxiservice.DAO.UserRoleDaoImpl;
 
-import com.taxi.taxiservice.Models.UserRole;
+import com.taxi.taxiservice.Models.User.UserRole;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +26,7 @@ public class UserRoleController {
             res.getWriter().flush();
 
         } catch (Exception err) {
-            System.out.println(err);
+            MessageController.internal(res);
         }
     }
 
@@ -44,7 +44,7 @@ public class UserRoleController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -62,7 +62,7 @@ public class UserRoleController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -80,7 +80,7 @@ public class UserRoleController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -88,14 +88,18 @@ public class UserRoleController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             UserRole connection = gson.fromJson(requestData, UserRole.class);
-            if(userRoleDao.checkRole(connection.getUserID(), connection.getRoleID()) == null && connection.getUserID() != 0 && connection.getRoleID() != 0) {
-                userRoleDao.save(connection.getUserID(), connection.getRoleID());
-                MessageController.sendResponseMessage(res,"Connection successfully created");
+            if(connection.getUserID() != 0 && connection.getRoleID() != 0) {
+                if(userRoleDao.checkRole(connection.getUserID(), connection.getRoleID()) == null) {
+                    userRoleDao.save(connection.getUserID(), connection.getRoleID());
+                    MessageController.sendResponseMessage(res,"Connection successfully created");
+                } else {
+                    MessageController.badRequest(res, "Connection already exists");
+                }
             } else {
-                MessageController.badRequest(res, "Connection already exists");
+                MessageController.badRequest(res, "Validation failed");
             }
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 
@@ -112,7 +116,7 @@ public class UserRoleController {
             }
             res.getWriter().flush();
         } catch (Exception err) {
-            System.out.println("Server error");
+            MessageController.internal(res);
         }
     }
 

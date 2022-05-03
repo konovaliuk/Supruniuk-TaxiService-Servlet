@@ -10,6 +10,12 @@ public class Role {
         this.rolename = rolename;
     }
 
+    public boolean checkValid() {
+        if(this.getRolename() != null) {
+            return true;
+        }
+        return false;
+    }
     public Role(String rolename) {
         this.rolename = rolename;
     }

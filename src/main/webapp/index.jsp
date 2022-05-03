@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JSP - Hello World</title>
+    <title>Taxi Service</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 
     <style>
@@ -14,7 +14,7 @@
         }
 
         .container-margin {
-            margin: 100px 0px;
+            margin: 50px 0px;
         }
     </style>
 </head>
@@ -65,7 +65,7 @@
         <p class="m-0 p-0">/api/orders</p>
         <div>
             <small  class="px-4">param: {role: [client, driver, dispatcher], id: Number}</small>
-            <small>http://localhost:8080/api/orders?role=client&id=6</small>
+            <small>http://localhost:5000/api/orders?role=client&id=6</small>
         </div>
     </div>
 
@@ -76,7 +76,7 @@
 
     <div class="alert alert-success d-flex align-items-center py-2" role="alert">
         <button type="button" class="btn btn-success mx-4">POST</button>
-        <p class="m-0 p-0">/api/order</p>
+        <p class="m-0 p-0">/api/orders</p>
         <small class="px-4">body: { client_id: Number, origin_address: String, destination_address: String, distance: Number, number_of_people: Number, car_type_id: Number }</small>
     </div>
 
@@ -114,7 +114,8 @@
     </div>
     <div class="alert alert-primary d-flex align-items-center py-2" role="alert">
         <button type="button" class="btn btn-primary mx-4">GET</button>
-        <p class="m-0 p-0">/api/roles/rolename/:name</p>
+        <p class="m-0 p-0">/api/roles</p>
+        <small class="px-4">param: { role: [client, driver, dispatcher, admin] }</small>
     </div>
 
     <div class="alert alert-success d-flex align-items-center py-2" role="alert">
@@ -217,7 +218,8 @@
     </div>
     <div class="alert alert-primary d-flex align-items-center py-2" role="alert">
         <button type="button" class="btn btn-primary mx-4">GET</button>
-        <p class="m-0 p-0">/api/car-types/typename/:name</p>
+        <p class="m-0 p-0">/api/car-types</p>
+        <small class="px-4">param: { type: String }</small>
     </div>
 
     <div class="alert alert-success d-flex align-items-center py-2" role="alert">
