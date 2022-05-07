@@ -1,8 +1,11 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
+import com.taxi.taxiservice.DAO.dbColumns.RoleDB;
+import com.taxi.taxiservice.DAO.dbColumns.UserDB;
 import com.taxi.taxiservice.DAO.dbColumns.UserRoleDB;
 import com.taxi.taxiservice.DAO.interfaces.IUserRoleDAO;
+import com.taxi.taxiservice.Models.User.User;
 import com.taxi.taxiservice.Models.User.UserRole;
 
 import java.sql.Connection;
@@ -29,6 +32,15 @@ public class UserRoleDaoImpl implements IUserRoleDAO {
         long roleID = resultSet.getLong(UserRoleDB.columnRoleId);
 
         return new UserRole(id, userID, roleID);
+    }
+
+    private User getUser(ResultSet resultSet) throws SQLException {
+        long id = resultSet.getLong(UserRoleDB.columnId);
+        String name = resultSet.getString(UserDB.columnName);
+        String surname = resultSet.getString(UserDB.columnSurname);
+        String email = resultSet.getString(UserDB.columnEmail);
+
+        return new User(id, name, surname, email);
     }
 
     public ArrayList<UserRole> findAll() {
@@ -67,24 +79,27 @@ public class UserRoleDaoImpl implements IUserRoleDAO {
         return userRole;
     }
 
-    public  ArrayList<UserRole> findConnectionByRole(long role_id) {
-        String query = "select * from user_role where role_id=" + role_id;
-        ArrayList<UserRole> userRoleList = new ArrayList<>();
-        UserRole userRole = null;
+    public ArrayList<User> findConnectionByRole(long role_id) {
+        String query = "select  users.id, users.name,  users.surname,  users.email from user_role \n" +
+                "JOIN users ON users.id=user_role.user_id\n" +
+                "where role_id=" + role_id;
+
+        ArrayList<User> users = new ArrayList<>();
+        User user = null;
 
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                userRole = getUserRole(resultSet);
-                userRoleList.add(userRole);
+                user = getUser(resultSet);
+                users.add(user);
             }
         } catch (Exception error) {
             error.printStackTrace();
         }
 
-        return userRoleList;
+        return users;
     }
 
     public UserRole checkRole(long user_id, long role_id) {
@@ -105,24 +120,28 @@ public class UserRoleDaoImpl implements IUserRoleDAO {
 
         return userRole;
     }
-    public ArrayList<UserRole> findUserRoles(long user_id) {
-        String query = "select * from user_role where user_id=" + user_id;
-        ArrayList<UserRole> userRoleList = new ArrayList<>();
-        UserRole userRole = null;
+
+    public ArrayList<String> findUserRoles(long user_id) {
+        String query = "select  roles.rolename from user_role \n" +
+                "JOIN roles ON roles.id=user_role.role_id\n" +
+                "where user_id=" + user_id;
+
+        ArrayList<String> roles = new ArrayList<>();
+        String role = null;
 
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                userRole = getUserRole(resultSet);
-                userRoleList.add(userRole);
+                role = resultSet.getString(RoleDB.columnRolename);
+                roles.add(role);
             }
         } catch (Exception error) {
             error.printStackTrace();
         }
 
-        return userRoleList;
+        return roles;
     }
 
     public void save(long user_id, long role_id) {

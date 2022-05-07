@@ -1,9 +1,10 @@
 package com.taxi.taxiservice.Controllers;
 
 import com.google.gson.Gson;
-import com.taxi.taxiservice.DAO.UserRoleDaoImpl;
 
+import com.taxi.taxiservice.Models.User.User;
 import com.taxi.taxiservice.Models.User.UserRole;
+import com.taxi.taxiservice.Services.UserRoleService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,16 +12,16 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class UserRoleController {
-    private UserRoleDaoImpl userRoleDao;
-
+    private UserRoleService userRoleService;
     Gson gson = new Gson();
+
     public UserRoleController() {
-        userRoleDao = new UserRoleDaoImpl();
+        userRoleService = new UserRoleService();
     }
 
     public void getRoleConnections(HttpServletRequest req, HttpServletResponse res) {
         try {
-            ArrayList<UserRole> connection = userRoleDao.findAll();
+            ArrayList<UserRole> connection = userRoleService.getAll();
             String json = gson.toJson(connection);
             res.getWriter().write(json);
             res.getWriter().flush();
@@ -35,9 +36,9 @@ public class UserRoleController {
 
         try {
             Long connectionId = Long.parseLong(id);
-            UserRole userRole = userRoleDao.findConnectionById(connectionId);
-            if(userRole == null) {
-                MessageController.badRequest(res,"Connection not found");
+            UserRole userRole = userRoleService.getById(connectionId);
+            if (userRole == null) {
+                MessageController.badRequest(res, "Connection not found");
             } else {
                 String json = new Gson().toJson(userRole);
                 res.getWriter().write(json);
@@ -49,15 +50,15 @@ public class UserRoleController {
     }
 
     public void getUserRoles(HttpServletRequest req, HttpServletResponse res) {
-        String [] path = req.getPathInfo().split("/");
+        String[] path = req.getPathInfo().split("/");
 
         try {
             long userId = Long.parseLong(path[2]);
-            ArrayList<UserRole> userRoles = userRoleDao.findUserRoles(userId);
-            if(userRoles.size() == 0) {
-                MessageController.badRequest(res,"Roles not found");
+            ArrayList<String> users = userRoleService.getByUser(userId);
+            if (users.size() == 0) {
+                MessageController.badRequest(res, "Roles not found");
             } else {
-                String json = new Gson().toJson(userRoles);
+                String json = new Gson().toJson(users);
                 res.getWriter().write(json);
             }
             res.getWriter().flush();
@@ -67,13 +68,13 @@ public class UserRoleController {
     }
 
     public void getUsersByRole(HttpServletRequest req, HttpServletResponse res) {
-        String [] path = req.getPathInfo().split("/");
+        String[] path = req.getPathInfo().split("/");
 
         try {
             long roleId = Long.parseLong(path[2]);
-            ArrayList<UserRole> userRoles = userRoleDao.findConnectionByRole(roleId);
-            if(userRoles.size() == 0) {
-                MessageController.badRequest(res,"Users not found");
+            ArrayList<User> userRoles = userRoleService.getByRole(roleId);
+            if (userRoles.size() == 0) {
+                MessageController.badRequest(res, "Users not found");
             } else {
                 String json = new Gson().toJson(userRoles);
                 res.getWriter().write(json);
@@ -88,10 +89,10 @@ public class UserRoleController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             UserRole connection = gson.fromJson(requestData, UserRole.class);
-            if(connection.getUserID() != 0 && connection.getRoleID() != 0) {
-                if(userRoleDao.checkRole(connection.getUserID(), connection.getRoleID()) == null) {
-                    userRoleDao.save(connection.getUserID(), connection.getRoleID());
-                    MessageController.sendResponseMessage(res,"Connection successfully created");
+            if (connection.getUserID() != 0 && connection.getRoleID() != 0) {
+                if (userRoleService.checkRole(connection.getUserID(), connection.getRoleID())) {
+                    userRoleService.save(connection);
+                    MessageController.sendResponseMessage(res, "Connection successfully created");
                 } else {
                     MessageController.badRequest(res, "Connection already exists");
                 }
@@ -108,9 +109,9 @@ public class UserRoleController {
 
         try {
             long connectionId = Long.parseLong(id);
-            if(userRoleDao.findConnectionById(connectionId) != null) {
-                userRoleDao.delete(connectionId);
-                MessageController.sendResponseMessage(res,"Connection deleted successfully");
+            if (userRoleService.getById(connectionId) != null) {
+                userRoleService.delete(connectionId);
+                MessageController.sendResponseMessage(res, "Connection deleted successfully");
             } else {
                 MessageController.badRequest(res, "Connection doesn`t exist");
             }
@@ -121,6 +122,6 @@ public class UserRoleController {
     }
 
     public void destroy() {
-        userRoleDao.closeConnection();
+        userRoleService.closeConnection();
     }
 }

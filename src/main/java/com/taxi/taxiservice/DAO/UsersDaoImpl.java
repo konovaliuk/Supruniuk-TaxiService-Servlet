@@ -1,10 +1,9 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
-import com.taxi.taxiservice.DAO.dbColumns.UserDB;
 import com.taxi.taxiservice.DAO.interfaces.IUsersDAO;
-import com.taxi.taxiservice.Models.NewUser;
-import com.taxi.taxiservice.Models.User.User;
+import com.taxi.taxiservice.Models.User.NewUser;
+import com.taxi.taxiservice.Models.User.UserDB;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,27 +23,27 @@ public class UsersDaoImpl implements IUsersDAO {
         }
     }
 
-    private User getUser(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(UserDB.columnId);
-        String name = resultSet.getString(UserDB.columnName);
-        String surname = resultSet.getString(UserDB.columnSurname);
-        String email = resultSet.getString(UserDB.columnEmail);
-        String password = resultSet.getString(UserDB.columnPassword);
-        String creation_date = resultSet.getString(UserDB.columnCreationDate);
+    private UserDB getUser(ResultSet resultSet) throws SQLException {
+        long id = resultSet.getLong(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnId);
+        String name = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnName);
+        String surname = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnSurname);
+        String email = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnEmail);
+        String password = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnPassword);
+        String creation_date = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnCreationDate);
 
-        return new User(id, name, surname, email, password, creation_date);
+        return new UserDB(id, name, surname, email, password, creation_date);
     }
 
-    public ArrayList<User> findAll() {
+    public ArrayList<UserDB> findAll() {
         String query = "select * from users";
-        ArrayList<User> userList = new ArrayList<User>();
+        ArrayList<UserDB> userList = new ArrayList<UserDB>();
 
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                User user = getUser(resultSet);
+                UserDB user = getUser(resultSet);
                 userList.add(user);
             }
         } catch (Exception error) {
@@ -54,10 +53,10 @@ public class UsersDaoImpl implements IUsersDAO {
         return userList;
     }
 
-    public User findById(long user_id) {
+    public UserDB findById(long user_id) {
         String query = "select * from users where id=" + user_id;
 
-        User user = null;
+        UserDB user = null;
 
         try {
             Statement statement = connection.createStatement();
@@ -73,9 +72,9 @@ public class UsersDaoImpl implements IUsersDAO {
         return user;
     }
 
-    public User findByEmail(String email) {
+    public UserDB findByEmail(String email) {
         String query = "select * from users where email='" + email + "'";
-        User user = null;
+        UserDB user = null;
 
         try {
             Statement statement = connection.createStatement();
@@ -91,15 +90,10 @@ public class UsersDaoImpl implements IUsersDAO {
         return user;
     }
 
-    public User save(NewUser user, long roleID) {
-        User newUser = null;
-        String query = "call create_user(null ,'"
-                + user.getName() + "','"
-                + user.getSurname() + "','"
-                + user.getEmail() + "','"
-                + user.getPasswordHash() + "',"
-                + roleID + ")";
-
+    public UserDB save(NewUser user) {
+        UserDB newUser = null;
+        String query = "call create_user(null ,'" + user.getName() + "','" + user.getSurname() + "','" + user.getEmail() + "','" + user.getPassword() + "'," + user.getRoleId() + ")";
+        System.out.println(query);
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
@@ -115,8 +109,8 @@ public class UsersDaoImpl implements IUsersDAO {
         return newUser;
     }
 
-    public User update(long ID, String field, String value) {
-        User newUser = null;
+    public UserDB update(long ID, String field, String value) {
+        UserDB newUser = null;
         String query = "call update_user_" + field + "(" + ID + "," + "'" + value + "');";
 
         try {

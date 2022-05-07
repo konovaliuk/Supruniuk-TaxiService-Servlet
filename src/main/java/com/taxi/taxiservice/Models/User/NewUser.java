@@ -1,24 +1,24 @@
-package com.taxi.taxiservice.Models;
+package com.taxi.taxiservice.Models.User;
 
 public class NewUser {
     private String name;
     private String surname;
     private String email;
-    private String password_hash;
+    private String password;
     private long roleId;
 
     public NewUser(String name, String surname,
-                String email, String password_hash, long roleId) {
+                   String email, String password, long roleId) {
         this.roleId = roleId;
         this.name = name;
         this.surname = surname;
         this.email = email;
-        this.password_hash = password_hash;
+        this.password = password;
     }
 
     public boolean checkValid() {
-        if(this.getEmail() != null && this.getName() != null && this.getRoleId() != 0
-            && this.getPasswordHash() != null && this.getSurname() != null) {
+        if (this.getEmail() != null && this.getName() != null && this.getRoleId() != 0
+                && this.getPassword() != null && this.getSurname() != null) {
             return true;
         }
         return false;
@@ -52,12 +52,12 @@ public class NewUser {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return password_hash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String password_hash) {
-        this.password_hash = password_hash;
+    public void setPassword(String password_hash) {
+        this.password = password_hash;
     }
 
 }

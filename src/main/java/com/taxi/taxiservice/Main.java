@@ -41,11 +41,11 @@ public class Main extends HttpServlet {
         try {
             switch (action) {
                 case "/roles":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         roleController.getRoleById(request, response);
                     } else {
                         String role = request.getParameter("role");
-                        if(role != null) {
+                        if (role != null) {
                             roleController.getByRolename(request, response);
                         } else {
                             roleController.getRoles(request, response);
@@ -53,11 +53,11 @@ public class Main extends HttpServlet {
                     }
                     break;
                 case "/car-types":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         carTypeController.getCarTypeById(request, response);
                     } else {
                         String type = request.getParameter("type");
-                        if(type != null) {
+                        if (type != null) {
                             carTypeController.getCarTypeByTypename(request, response);
                         } else {
                             carTypeController.getCarTypes(request, response);
@@ -66,23 +66,23 @@ public class Main extends HttpServlet {
                     break;
                 case "/driver-statuses":
                     //statuses: offline, busy, available
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         driverStatusController.getDriverStatusById(request, response);
                     } else {
                         driverStatusController.getDriverStatuses(request, response);
                     }
                     break;
                 case "/users":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         userController.getUserById(request, response);
                     } else {
                         userController.getUsers(request, response);
                     }
                     break;
                 case "/role-connections":
-                    if(pathInfo != null) {
-                        String [] path = pathInfo.split("/");
-                        if(Objects.equals(path[1], "user")) {
+                    if (pathInfo != null) {
+                        String[] path = pathInfo.split("/");
+                        if (Objects.equals(path[1], "user")) {
                             userRoleController.getUserRoles(request, response);
                         } else if (Objects.equals(path[1], "role")) {
                             userRoleController.getUsersByRole(request, response);
@@ -94,9 +94,9 @@ public class Main extends HttpServlet {
                     }
                     break;
                 case "/cars":
-                    if(pathInfo != null) {
-                        String [] path = pathInfo.split("/");
-                        if(Objects.equals(path[1], "driver")) {
+                    if (pathInfo != null) {
+                        String[] path = pathInfo.split("/");
+                        if (Objects.equals(path[1], "driver")) {
                             carController.getCarsByDriverId(request, response);
                         } else {
                             carController.getCarById(request, response);
@@ -106,12 +106,12 @@ public class Main extends HttpServlet {
                     }
                     break;
                 case "/orders":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         orderController.getOrderById(request, response);
                     } else {
                         String role = request.getParameter("role");
                         String id = request.getParameter("id");
-                        if(role!=null && id!=null) {
+                        if (role != null && id != null) {
                             orderController.getOrdersByRole(request, response);
                         }
                         orderController.getOrders(request, response);
@@ -169,27 +169,27 @@ public class Main extends HttpServlet {
         try {
             switch (action) {
                 case "/roles":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         roleController.deleteRoleById(request, response);
                     }
                     break;
                 case "/car-types":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         carTypeController.deleteCarTypeById(request, response);
                     }
                     break;
                 case "/users":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         userController.deleteUserById(request, response);
                     }
                     break;
                 case "/role-connections":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         userRoleController.deleteConnectionById(request, response);
                     }
                     break;
                 case "/cars":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         carController.deleteCarById(request, response);
                     }
                     break;
@@ -211,30 +211,30 @@ public class Main extends HttpServlet {
         try {
             switch (action) {
                 case "/roles":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         roleController.updateRoleById(request, response);
                     }
                     break;
                 case "/car-types":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         carTypeController.updateCarTypeById(request, response);
                     }
                     break;
                 case "/driver-statuses":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         driverStatusController.updateDriverStatusById(request, response);
                     }
                 case "/users":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         userController.updateUserById(request, response);
                     }
                 case "/cars":
-                    if(pathInfo != null) {
+                    if (pathInfo != null) {
                         carController.updateCarById(request, response);
                     }
                 case "/orders":
-                    if(pathInfo != null) {
-                        String [] path = pathInfo.split("/");
+                    if (pathInfo != null) {
+                        String[] path = pathInfo.split("/");
                         if (Objects.equals(path[1], "dispatcher")) {
                             orderController.updateByDispatcher(request, response);
                         } else if (Objects.equals(path[1], "driver")) {
