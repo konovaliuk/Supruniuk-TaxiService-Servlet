@@ -3,6 +3,7 @@ package com.taxi.taxiservice.DAO;
 import com.taxi.taxiservice.ConnectionPool;
 import com.taxi.taxiservice.DAO.dbColumns.DriverStatusDB;
 import com.taxi.taxiservice.DAO.interfaces.IDriverStatusDAO;
+import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.DriverStatus;
 
 import java.sql.Connection;
@@ -17,7 +18,7 @@ public class DriverStatusDaoImpl implements IDriverStatusDAO {
     public DriverStatusDaoImpl() {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
-            connection = connectionPool.getConnection("Driver Status Data Source");
+            connection = connectionPool.getConnection(ConnectionNames.driverStatus);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

@@ -5,6 +5,7 @@ import com.taxi.taxiservice.DAO.dbColumns.RoleDB;
 import com.taxi.taxiservice.DAO.dbColumns.UserDB;
 import com.taxi.taxiservice.DAO.dbColumns.UserRoleDB;
 import com.taxi.taxiservice.DAO.interfaces.IUserRoleDAO;
+import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.User.User;
 import com.taxi.taxiservice.Models.User.UserRole;
 
@@ -20,7 +21,7 @@ public class UserRoleDaoImpl implements IUserRoleDAO {
     public UserRoleDaoImpl() {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
-            connection = connectionPool.getConnection("Role Connection Data Source");
+            connection = connectionPool.getConnection(ConnectionNames.userRole);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

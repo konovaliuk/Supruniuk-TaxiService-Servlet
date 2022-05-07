@@ -3,6 +3,7 @@ package com.taxi.taxiservice.DAO;
 import com.taxi.taxiservice.ConnectionPool;
 import com.taxi.taxiservice.DAO.dbColumns.OrderDB;
 import com.taxi.taxiservice.DAO.interfaces.IOrderDAO;
+import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.Order.*;
 
 import java.sql.Connection;
@@ -17,7 +18,7 @@ public class OrderDaoImpl implements IOrderDAO {
     public OrderDaoImpl() {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
-            connection = connectionPool.getConnection("Order Data Source");
+            connection = connectionPool.getConnection(ConnectionNames.orderDao);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

@@ -1,5 +1,6 @@
 package com.taxi.taxiservice.Services;
 
+import com.taxi.taxiservice.DAO.RoleDaoImpl;
 import com.taxi.taxiservice.DAO.UsersDaoImpl;
 import com.taxi.taxiservice.Models.User.NewUser;
 import com.taxi.taxiservice.Models.UpdateField;
@@ -11,9 +12,10 @@ import java.util.Iterator;
 
 public class UserService {
     private UsersDaoImpl usersDao;
-
+    private RoleDaoImpl roleDao;
     public UserService() {
         usersDao = new UsersDaoImpl();
+        roleDao = new RoleDaoImpl();
     }
 
     private User getUser(UserDB user) {
@@ -35,7 +37,6 @@ public class UserService {
             users.add(user);
         }
 
-        System.out.println(users);
         return users;
     }
 
@@ -66,6 +67,7 @@ public class UserService {
 
     public void delete(Long id) {
         usersDao.delete(id);
+        roleDao.delete(26);
     }
 
     public void closeConnection() {

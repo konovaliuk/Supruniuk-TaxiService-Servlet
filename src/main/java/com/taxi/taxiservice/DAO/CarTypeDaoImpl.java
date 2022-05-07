@@ -4,6 +4,7 @@ import com.taxi.taxiservice.ConnectionPool;
 import com.taxi.taxiservice.DAO.dbColumns.CarTypeDB;
 import com.taxi.taxiservice.DAO.interfaces.ICarTypeDAO;
 import com.taxi.taxiservice.Models.CarType;
+import com.taxi.taxiservice.Models.ConnectionNames;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -17,7 +18,7 @@ public class CarTypeDaoImpl implements ICarTypeDAO {
     public CarTypeDaoImpl() {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
-            connection = connectionPool.getConnection("Car Type Data Source");
+            connection = connectionPool.getConnection(ConnectionNames.carTypeDao);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

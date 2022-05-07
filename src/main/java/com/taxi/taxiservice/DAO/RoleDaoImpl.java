@@ -3,6 +3,7 @@ package com.taxi.taxiservice.DAO;
 import com.taxi.taxiservice.ConnectionPool;
 import com.taxi.taxiservice.DAO.dbColumns.RoleDB;
 import com.taxi.taxiservice.DAO.interfaces.IRoleDAO;
+import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.Role;
 
 import java.sql.Connection;
@@ -18,7 +19,7 @@ public class RoleDaoImpl implements IRoleDAO {
     public RoleDaoImpl() {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
-            connection = connectionPool.getConnection("Role Data Source");
+            connection = connectionPool.getConnection(ConnectionNames.userRole);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }

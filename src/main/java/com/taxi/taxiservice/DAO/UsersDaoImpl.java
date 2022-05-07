@@ -2,6 +2,7 @@ package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
 import com.taxi.taxiservice.DAO.interfaces.IUsersDAO;
+import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.User.NewUser;
 import com.taxi.taxiservice.Models.User.UserDB;
 
@@ -17,7 +18,7 @@ public class UsersDaoImpl implements IUsersDAO {
     public UsersDaoImpl() {
         try {
             ConnectionPool connectionPool = ConnectionPool.getInstance();
-            connection = connectionPool.getConnection("Users Data Source");
+            connection = connectionPool.getConnection(ConnectionNames.userDao);
         } catch (Exception e) {
             System.err.println(e.getMessage());
         }
@@ -93,7 +94,6 @@ public class UsersDaoImpl implements IUsersDAO {
     public UserDB save(NewUser user) {
         UserDB newUser = null;
         String query = "call create_user(null ,'" + user.getName() + "','" + user.getSurname() + "','" + user.getEmail() + "','" + user.getPassword() + "'," + user.getRoleId() + ")";
-        System.out.println(query);
         try {
             Statement statement = connection.createStatement();
             ResultSet resultSet = statement.executeQuery(query);
