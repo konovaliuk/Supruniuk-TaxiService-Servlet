@@ -1,7 +1,6 @@
 package com.taxi.taxiservice.Controllers;
 
 import com.google.gson.Gson;
-import com.taxi.taxiservice.DAO.CarTypeDaoImpl;
 import com.taxi.taxiservice.Models.CarType;
 import com.taxi.taxiservice.Services.CarTypeService;
 

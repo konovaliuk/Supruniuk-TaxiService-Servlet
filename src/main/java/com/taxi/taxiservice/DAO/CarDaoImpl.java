@@ -149,6 +149,17 @@ public class CarDaoImpl implements ICarDAO {
         }
     }
 
+    public void deleteByDriver(long driverId) {
+        String query = "DELETE FROM cars WHERE driver_id=" + driverId;
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+        } catch (Exception error) {
+            error.printStackTrace();
+        }
+    }
+
     public void closeConnection() {
         try {
             connection.close();

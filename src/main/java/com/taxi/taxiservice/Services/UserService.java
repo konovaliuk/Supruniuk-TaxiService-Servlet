@@ -1,11 +1,12 @@
 package com.taxi.taxiservice.Services;
 
-import com.taxi.taxiservice.DAO.RoleDaoImpl;
-import com.taxi.taxiservice.DAO.UsersDaoImpl;
+import com.taxi.taxiservice.DAO.*;
+import com.taxi.taxiservice.Models.Role;
 import com.taxi.taxiservice.Models.User.NewUser;
 import com.taxi.taxiservice.Models.UpdateField;
 import com.taxi.taxiservice.Models.User.User;
 import com.taxi.taxiservice.Models.User.UserDB;
+import com.taxi.taxiservice.Models.User.UserRole;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -13,9 +14,16 @@ import java.util.Iterator;
 public class UserService {
     private UsersDaoImpl usersDao;
     private RoleDaoImpl roleDao;
+    private UserRoleDaoImpl userRoleDao;
+    private CarDaoImpl carDao;
+    private DriverStatusDaoImpl driverStatusDao;
+    private OrderDaoImpl orderDao;
+
     public UserService() {
         usersDao = new UsersDaoImpl();
+        userRoleDao = new UserRoleDaoImpl();
         roleDao = new RoleDaoImpl();
+        carDao = new CarDaoImpl();
     }
 
     private User getUser(UserDB user) {
@@ -66,8 +74,14 @@ public class UserService {
     }
 
     public void delete(Long id) {
+        Role role = roleDao.findByRolename("driver");
+        UserRole connection = userRoleDao.checkRole(id, role.getId());
+        if (connection != null) {
+            carDao.deleteByDriver(id);
+            driverStatusDao.delete(id);
+        }
+        orderDao.deleteByUser(id);
         usersDao.delete(id);
-        roleDao.delete(26);
     }
 
     public void closeConnection() {

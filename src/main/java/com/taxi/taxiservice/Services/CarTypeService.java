@@ -1,9 +1,7 @@
 package com.taxi.taxiservice.Services;
 
 import com.taxi.taxiservice.DAO.CarTypeDaoImpl;
-import com.taxi.taxiservice.DAO.DriverStatusDaoImpl;
 import com.taxi.taxiservice.Models.CarType;
-import com.taxi.taxiservice.Models.DriverStatus;
 
 import java.util.ArrayList;
 

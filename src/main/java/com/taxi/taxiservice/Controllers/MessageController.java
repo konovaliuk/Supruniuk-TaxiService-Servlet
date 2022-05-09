@@ -1,13 +1,9 @@
 package com.taxi.taxiservice.Controllers;
 
 import com.google.gson.Gson;
-import com.taxi.taxiservice.Models.CarType;
-import com.taxi.taxiservice.Models.Role;
 import com.taxi.taxiservice.Models.ServerMessage;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.stream.Collectors;
 
 public class MessageController {
     static void badRequest(HttpServletResponse res, String message) {

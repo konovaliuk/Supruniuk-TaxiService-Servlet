@@ -1,7 +1,6 @@
 package com.taxi.taxiservice.Controllers;
 
 import com.google.gson.Gson;
-import com.taxi.taxiservice.DAO.CarDaoImpl;
 import com.taxi.taxiservice.Models.Car.Car;
 import com.taxi.taxiservice.Models.UpdateField;
 import com.taxi.taxiservice.Services.CarService;

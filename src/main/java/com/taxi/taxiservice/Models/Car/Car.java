@@ -32,7 +32,7 @@ public class Car {
     }
 
     public boolean checkValid() {
-        if(this.getModel() != null && this.getColor() != null && this.getDriverID() != 0 &&
+        if (this.getModel() != null && this.getColor() != null && this.getDriverID() != 0 &&
                 this.getLicenseNumber() != null && this.getTypeID() != 0) {
             return true;
         }

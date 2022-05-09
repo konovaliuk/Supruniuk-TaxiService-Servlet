@@ -193,6 +193,17 @@ public class OrderDaoImpl implements IOrderDAO {
         }
     }
 
+    public void deleteByUser(long userId) {
+        String query = "DELETE FROM orders WHERE client_id=" + userId + " OR driver_id=" + userId + " OR dispatcher_id=" + userId;
+
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+        } catch (SQLException error) {
+            error.printStackTrace();
+        }
+    }
+
     public void closeConnection() {
         try {
             connection.close();

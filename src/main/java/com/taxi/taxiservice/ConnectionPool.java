@@ -6,13 +6,13 @@ import org.postgresql.ds.PGPoolingDataSource;
 
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class ConnectionPool {
     private static final String URL = "jdbc:postgresql://localhost:5432/taxi_service";
     private static final String USERNAME = "postgres";
     private static final String PASSWORD = "timofey";
     private static Connections connections = new Connections();
+
     public ConnectionPool() {
 
     }
@@ -30,7 +30,7 @@ public class ConnectionPool {
         Connection connection = null;
         try {
             Connection conn = connections.getConnectionByField(dataSourceName);
-            if(conn != null){
+            if (conn != null) {
                 return conn;
             }
             PGPoolingDataSource source = new PGPoolingDataSource();
