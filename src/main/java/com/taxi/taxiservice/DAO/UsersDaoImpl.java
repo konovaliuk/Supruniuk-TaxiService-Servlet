@@ -1,6 +1,7 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
+import com.taxi.taxiservice.DAO.dbColumns.UserColumnsDB;
 import com.taxi.taxiservice.DAO.interfaces.IUsersDAO;
 import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.User.NewUser;
@@ -25,12 +26,12 @@ public class UsersDaoImpl implements IUsersDAO {
     }
 
     private UserDB getUser(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnId);
-        String name = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnName);
-        String surname = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnSurname);
-        String email = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnEmail);
-        String password = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnPassword);
-        String creation_date = resultSet.getString(com.taxi.taxiservice.DAO.dbColumns.UserDB.columnCreationDate);
+        long id = resultSet.getLong(UserColumnsDB.columnId);
+        String name = resultSet.getString(UserColumnsDB.columnName);
+        String surname = resultSet.getString(UserColumnsDB.columnSurname);
+        String email = resultSet.getString(UserColumnsDB.columnEmail);
+        String password = resultSet.getString(UserColumnsDB.columnPassword);
+        String creation_date = resultSet.getString(UserColumnsDB.columnCreationDate);
 
         return new UserDB(id, name, surname, email, password, creation_date);
     }

@@ -1,7 +1,7 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
-import com.taxi.taxiservice.DAO.dbColumns.RoleDB;
+import com.taxi.taxiservice.DAO.dbColumns.RoleColumnsDB;
 import com.taxi.taxiservice.DAO.interfaces.IRoleDAO;
 import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.Role;
@@ -26,8 +26,8 @@ public class RoleDaoImpl implements IRoleDAO {
     }
 
     private Role getRole(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(RoleDB.columnId);
-        String rolename = resultSet.getString(RoleDB.columnRolename);
+        long id = resultSet.getLong(RoleColumnsDB.columnId);
+        String rolename = resultSet.getString(RoleColumnsDB.columnRolename);
 
         return new Role(id, rolename);
     }

@@ -1,6 +1,6 @@
 package com.taxi.taxiservice.DAO.dbColumns;
 
-public class OrderDB {
+public class OrderColumnsDB {
     public static String columnId = "id";
     public static String columnClientId = "client_id";
     public static String columnOriginAddress = "origin_address";

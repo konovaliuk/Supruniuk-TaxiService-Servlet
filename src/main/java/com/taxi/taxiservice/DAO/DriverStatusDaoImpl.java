@@ -1,7 +1,7 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
-import com.taxi.taxiservice.DAO.dbColumns.DriverStatusDB;
+import com.taxi.taxiservice.DAO.dbColumns.DriverStatusColumnsDB;
 import com.taxi.taxiservice.DAO.interfaces.IDriverStatusDAO;
 import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.DriverStatus;
@@ -25,8 +25,8 @@ public class DriverStatusDaoImpl implements IDriverStatusDAO {
     }
 
     private DriverStatus getDriverStatus(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(DriverStatusDB.columnDriverId);
-        String status = resultSet.getString(DriverStatusDB.columnStatus);
+        long id = resultSet.getLong(DriverStatusColumnsDB.columnDriverId);
+        String status = resultSet.getString(DriverStatusColumnsDB.columnStatus);
 
         return new DriverStatus(id, status);
     }

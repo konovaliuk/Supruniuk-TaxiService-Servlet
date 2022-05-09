@@ -1,7 +1,7 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
-import com.taxi.taxiservice.DAO.dbColumns.CarTypeDB;
+import com.taxi.taxiservice.DAO.dbColumns.CarTypeColumnsDB;
 import com.taxi.taxiservice.DAO.interfaces.ICarTypeDAO;
 import com.taxi.taxiservice.Models.CarType;
 import com.taxi.taxiservice.Models.ConnectionNames;
@@ -25,9 +25,9 @@ public class CarTypeDaoImpl implements ICarTypeDAO {
     }
 
     private CarType getCarType(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(CarTypeDB.columnId);
-        String type = resultSet.getString(CarTypeDB.columnTypename);
-        String description = resultSet.getString(CarTypeDB.columnDescription);
+        long id = resultSet.getLong(CarTypeColumnsDB.columnId);
+        String type = resultSet.getString(CarTypeColumnsDB.columnTypename);
+        String description = resultSet.getString(CarTypeColumnsDB.columnDescription);
 
         return new CarType(id, type, description);
     }

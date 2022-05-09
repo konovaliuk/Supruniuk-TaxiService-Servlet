@@ -1,7 +1,7 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
-import com.taxi.taxiservice.DAO.dbColumns.CarDB;
+import com.taxi.taxiservice.DAO.dbColumns.CarColumnsDB;
 import com.taxi.taxiservice.DAO.interfaces.ICarDAO;
 import com.taxi.taxiservice.Models.Car.Car;
 import com.taxi.taxiservice.Models.ConnectionNames;
@@ -25,13 +25,13 @@ public class CarDaoImpl implements ICarDAO {
     }
 
     private Car getCar(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(CarDB.columnId);
-        long driver_id = resultSet.getLong(CarDB.columnDriverId);
-        String license_number = resultSet.getString(CarDB.columnLisenceNumber);
-        String model = resultSet.getString(CarDB.columnModel);
-        String color = resultSet.getString(CarDB.columnColor);
-        long type_id = resultSet.getLong(CarDB.columnTypeId);
-        String creation_date = resultSet.getString(CarDB.columnCreationDate);
+        long id = resultSet.getLong(CarColumnsDB.columnId);
+        long driver_id = resultSet.getLong(CarColumnsDB.columnDriverId);
+        String license_number = resultSet.getString(CarColumnsDB.columnLisenceNumber);
+        String model = resultSet.getString(CarColumnsDB.columnModel);
+        String color = resultSet.getString(CarColumnsDB.columnColor);
+        long type_id = resultSet.getLong(CarColumnsDB.columnTypeId);
+        String creation_date = resultSet.getString(CarColumnsDB.columnCreationDate);
 
         return new Car(id, driver_id, license_number, model, color, type_id, creation_date);
     }

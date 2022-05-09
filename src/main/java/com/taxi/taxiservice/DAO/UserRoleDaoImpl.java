@@ -1,9 +1,9 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
-import com.taxi.taxiservice.DAO.dbColumns.RoleDB;
-import com.taxi.taxiservice.DAO.dbColumns.UserDB;
-import com.taxi.taxiservice.DAO.dbColumns.UserRoleDB;
+import com.taxi.taxiservice.DAO.dbColumns.RoleColumnsDB;
+import com.taxi.taxiservice.DAO.dbColumns.UserColumnsDB;
+import com.taxi.taxiservice.DAO.dbColumns.UserRoleColumnsDB;
 import com.taxi.taxiservice.DAO.interfaces.IUserRoleDAO;
 import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.User.User;
@@ -28,18 +28,18 @@ public class UserRoleDaoImpl implements IUserRoleDAO {
     }
 
     private UserRole getUserRole(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(UserRoleDB.columnId);
-        long userID = resultSet.getLong(UserRoleDB.columnUserId);
-        long roleID = resultSet.getLong(UserRoleDB.columnRoleId);
+        long id = resultSet.getLong(UserRoleColumnsDB.columnId);
+        long userID = resultSet.getLong(UserRoleColumnsDB.columnUserId);
+        long roleID = resultSet.getLong(UserRoleColumnsDB.columnRoleId);
 
         return new UserRole(id, userID, roleID);
     }
 
     private User getUser(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(UserRoleDB.columnId);
-        String name = resultSet.getString(UserDB.columnName);
-        String surname = resultSet.getString(UserDB.columnSurname);
-        String email = resultSet.getString(UserDB.columnEmail);
+        long id = resultSet.getLong(UserRoleColumnsDB.columnId);
+        String name = resultSet.getString(UserColumnsDB.columnName);
+        String surname = resultSet.getString(UserColumnsDB.columnSurname);
+        String email = resultSet.getString(UserColumnsDB.columnEmail);
 
         return new User(id, name, surname, email);
     }
@@ -135,7 +135,7 @@ public class UserRoleDaoImpl implements IUserRoleDAO {
             ResultSet resultSet = statement.executeQuery(query);
 
             while (resultSet.next()) {
-                role = resultSet.getString(RoleDB.columnRolename);
+                role = resultSet.getString(RoleColumnsDB.columnRolename);
                 roles.add(role);
             }
         } catch (Exception error) {

@@ -1,7 +1,7 @@
 package com.taxi.taxiservice.DAO;
 
 import com.taxi.taxiservice.ConnectionPool;
-import com.taxi.taxiservice.DAO.dbColumns.OrderDB;
+import com.taxi.taxiservice.DAO.dbColumns.OrderColumnsDB;
 import com.taxi.taxiservice.DAO.interfaces.IOrderDAO;
 import com.taxi.taxiservice.Models.ConnectionNames;
 import com.taxi.taxiservice.Models.Order.*;
@@ -25,25 +25,25 @@ public class OrderDaoImpl implements IOrderDAO {
     }
 
     private Order getOrder(ResultSet resultSet) throws SQLException {
-        long id = resultSet.getLong(OrderDB.columnId);
-        long clientID = resultSet.getLong(OrderDB.columnClientId);
-        String origin = resultSet.getString(OrderDB.columnOriginAddress);
-        String destination = resultSet.getString(OrderDB.columnDestinationAddress);
-        int distance = resultSet.getInt(OrderDB.columnDistance);
-        int people = resultSet.getInt(OrderDB.columnNumberOfPeople);
-        long carTypeID = resultSet.getLong(OrderDB.columnCarTypeId);
-        String creationDate = resultSet.getString(OrderDB.columnCreationDate);
-        String clientComment = resultSet.getString(OrderDB.columnClientComment);
-        int clientGrade = resultSet.getInt(OrderDB.columnClientGrade);
-        long driverID = resultSet.getLong(OrderDB.columnDriverId);
-        String waitingTime = resultSet.getString(OrderDB.columnWaitingTime);
-        String driverComment = resultSet.getString(OrderDB.columnDriverComment);
-        int driverGrade = resultSet.getInt(OrderDB.columnDriverGrade);
-        long carID = resultSet.getLong(OrderDB.columnCarId);
-        long dispatcherID = resultSet.getLong(OrderDB.columnDispatcherId);
-        boolean approved = resultSet.getBoolean(OrderDB.columnApproved);
-        String orderStatus = resultSet.getString(OrderDB.columnOrderStatus);
-        String totalPayment = resultSet.getString(OrderDB.columnTotalPayment);
+        long id = resultSet.getLong(OrderColumnsDB.columnId);
+        long clientID = resultSet.getLong(OrderColumnsDB.columnClientId);
+        String origin = resultSet.getString(OrderColumnsDB.columnOriginAddress);
+        String destination = resultSet.getString(OrderColumnsDB.columnDestinationAddress);
+        int distance = resultSet.getInt(OrderColumnsDB.columnDistance);
+        int people = resultSet.getInt(OrderColumnsDB.columnNumberOfPeople);
+        long carTypeID = resultSet.getLong(OrderColumnsDB.columnCarTypeId);
+        String creationDate = resultSet.getString(OrderColumnsDB.columnCreationDate);
+        String clientComment = resultSet.getString(OrderColumnsDB.columnClientComment);
+        int clientGrade = resultSet.getInt(OrderColumnsDB.columnClientGrade);
+        long driverID = resultSet.getLong(OrderColumnsDB.columnDriverId);
+        String waitingTime = resultSet.getString(OrderColumnsDB.columnWaitingTime);
+        String driverComment = resultSet.getString(OrderColumnsDB.columnDriverComment);
+        int driverGrade = resultSet.getInt(OrderColumnsDB.columnDriverGrade);
+        long carID = resultSet.getLong(OrderColumnsDB.columnCarId);
+        long dispatcherID = resultSet.getLong(OrderColumnsDB.columnDispatcherId);
+        boolean approved = resultSet.getBoolean(OrderColumnsDB.columnApproved);
+        String orderStatus = resultSet.getString(OrderColumnsDB.columnOrderStatus);
+        String totalPayment = resultSet.getString(OrderColumnsDB.columnTotalPayment);
 
         return new Order(id, clientID, origin, destination, distance, people, carTypeID, creationDate, clientComment, clientGrade, driverID, waitingTime, driverComment, driverGrade, carID, dispatcherID, approved, orderStatus, totalPayment);
     }

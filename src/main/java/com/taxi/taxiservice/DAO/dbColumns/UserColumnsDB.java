@@ -1,6 +1,6 @@
 package com.taxi.taxiservice.DAO.dbColumns;
 
-public class UserDB {
+public class UserColumnsDB {
     public static  String columnId = "id";
     public static  String columnName = "name";
     public static  String columnSurname = "surname";

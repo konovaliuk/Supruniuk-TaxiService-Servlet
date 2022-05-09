@@ -3,6 +3,7 @@ package com.taxi.taxiservice.Controllers;
 import com.google.gson.Gson;
 import com.taxi.taxiservice.DAO.CarTypeDaoImpl;
 import com.taxi.taxiservice.Models.CarType;
+import com.taxi.taxiservice.Services.CarTypeService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -10,15 +11,16 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 public class CarTypeController {
-    private CarTypeDaoImpl carTypeDAO;
+    private CarTypeService carTypeService;
     Gson gson = new Gson();
+
     public CarTypeController() {
-        carTypeDAO = new CarTypeDaoImpl();
+        carTypeService = new CarTypeService();
     }
 
     public void getCarTypes(HttpServletRequest req, HttpServletResponse res) {
         try {
-            ArrayList<CarType> carTypes = carTypeDAO.findAll();
+            ArrayList<CarType> carTypes = carTypeService.getAll();
             String json = new Gson().toJson(carTypes);
             res.getWriter().write(json);
             res.getWriter().flush();
@@ -33,9 +35,9 @@ public class CarTypeController {
 
         try {
             long typeId = Long.parseLong(id);
-            CarType carType = carTypeDAO.findByID(typeId);
-            if(carType == null) {
-                MessageController.badRequest(res,"Car type not found");
+            CarType carType = carTypeService.getById(typeId);
+            if (carType == null) {
+                MessageController.badRequest(res, "Car type not found");
             } else {
                 String json = new Gson().toJson(carType);
                 res.getWriter().write(json);
@@ -50,9 +52,9 @@ public class CarTypeController {
         String typename = req.getParameter("type");
 
         try {
-            CarType carType = carTypeDAO.findByTypename(typename);
-            if(carType == null) {
-                MessageController.badRequest(res,"Car type not found");
+            CarType carType = carTypeService.getByTypename(typename);
+            if (carType == null) {
+                MessageController.badRequest(res, "Car type not found");
             } else {
                 String json = new Gson().toJson(carType);
                 res.getWriter().write(json);
@@ -67,10 +69,10 @@ public class CarTypeController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             CarType newCarType = gson.fromJson(requestData, CarType.class);
-            if(carTypeDAO.findByTypename((newCarType.getTypename())) == null) {
-                if(newCarType.checkValid()) {
-                    carTypeDAO.save(newCarType.getTypename(), newCarType.getDescription());
-                    MessageController.sendResponseMessage(res,"Car type successfully created");
+            if (carTypeService.getByTypename((newCarType.getTypename())) == null) {
+                if (newCarType.checkValid()) {
+                    carTypeService.create(newCarType);
+                    MessageController.sendResponseMessage(res, "Car type successfully created");
                 } else {
                     MessageController.badRequest(res, "Validation failed");
                 }
@@ -87,9 +89,9 @@ public class CarTypeController {
 
         try {
             long carTypeId = Long.parseLong(id);
-            if(carTypeDAO.findByID(carTypeId) != null) {
-                carTypeDAO.delete(carTypeId);
-                MessageController.sendResponseMessage(res,"Car type deleted successfully");
+            if (carTypeService.getById(carTypeId) != null) {
+                carTypeService.delete(carTypeId);
+                MessageController.sendResponseMessage(res, "Car type deleted successfully");
             } else {
                 MessageController.badRequest(res, "Car type doesn`t exist");
             }
@@ -105,11 +107,11 @@ public class CarTypeController {
         try {
             String requestData = req.getReader().lines().collect(Collectors.joining());
             CarType updatedCarType = gson.fromJson(requestData, CarType.class);
-            if(updatedCarType.checkValid()) {
+            if (updatedCarType.checkValid()) {
                 long carTypeId = Long.parseLong(id);
-                if(carTypeDAO.findByID(carTypeId) != null) {
-                    carTypeDAO.update(carTypeId, updatedCarType.getTypename(), updatedCarType.getDescription());
-                    MessageController.sendResponseMessage(res,"Car type updated successfully");
+                if (carTypeService.getById(carTypeId) != null) {
+                    carTypeService.update(carTypeId, updatedCarType);
+                    MessageController.sendResponseMessage(res, "Car type updated successfully");
                 } else {
                     MessageController.badRequest(res, "Car type doesn`t exist");
                 }
@@ -123,6 +125,6 @@ public class CarTypeController {
     }
 
     public void destroy() {
-        carTypeDAO.closeConnection();
+        carTypeService.closeConnection();
     }
 }
