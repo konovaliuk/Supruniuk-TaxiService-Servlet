@@ -24,6 +24,8 @@ public class UserService {
         userRoleDao = new UserRoleDaoImpl();
         roleDao = new RoleDaoImpl();
         carDao = new CarDaoImpl();
+        driverStatusDao = new DriverStatusDaoImpl();
+        orderDao = new OrderDaoImpl();
     }
 
     private User getUser(UserDB user) {
